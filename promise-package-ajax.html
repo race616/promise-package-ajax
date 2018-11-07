@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+
+		<script type="text/javascript">
+			function ajax(url, fnccess, fnFail) {
+				return new Promise(function(resolve, reject) {
+					if(window.XMLHttpRequest) {
+						var xhr = new XMLHttpRequest;
+					} else {
+						var xhr = new ActiveObject("Micsoft.XMLHTTP");
+					}
+					xhr.open("get", url, true);
+					xhr.send();
+					xhr.onreadystatechange = function() {
+						if(xhr.readyState == 4) {
+							if(xhr.status == 200) {
+								var data = xhr.responseText;
+								resolve(data);
+							} else {
+								reject("请求失败");
+							}
+						}
+					}
+				})
+
+			}
+			
+			ajax("demo.php").then(function(data){
+				console.log(data);
+				return ajax("demo2.php")
+				
+			}).then(function(data){
+				console.log(data)
+			})
+		</script>
+	</body>
+
+</html>
